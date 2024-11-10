@@ -48,9 +48,9 @@ export default function Dashboard() {
                 </div>
             </nav>{" "}
             <div className="flex-1">
-                Search Bar{" "}
+                Search Bar
                 <div className="flex gap-4 mb-8 bg-gray-100 p-5 border rounded-2xl justify-between shadow-md">
-                    {" "}
+                    {/* Search Bar */}
                     <div className="relative w-3/12 flex">
                         {" "}
                         <Input
@@ -79,13 +79,13 @@ export default function Dashboard() {
                     </Button>
                 </div>
                 {/* Kanban Board */}
-                <div className="grid grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-4 lg:grid-cols-4 lg:gap-6">
                     {/* To Do Column */}
                     {/* Sidebar */}
-                    <div className="w-64 bg-white p-4">
+                    <div className="md:w-64 bg-white p-4 ">
                         {/* Sidebar */}
-                        <div className="space-y-4">
-                            <div className="flex flex-col p-4 rounded-lg bg-gray-100 shadow-md">
+                        <div className="md:space-y-4 flex md:flex-col">
+                            <div className="flex flex-col p-4 rounded-lg bg-gray-100 shadow-md mx-4 md:mx-0">
                                 <TimerOff className="h-14 w-14 text-white bg-red-500 border rounded-full p-3" />{" "}
                                 <div className="text-red-500 font-medium my-2 mr-auto">
                                     Expired Tasks
@@ -94,7 +94,7 @@ export default function Dashboard() {
                                     5
                                 </div>{" "}
                             </div>{" "}
-                            <div className="flex flex-col p-4 rounded-lg bg-gray-100 shadow-md">
+                            <div className="flex flex-col p-4 rounded-lg bg-gray-100 shadow-md mx-4 md:mx-0">
                                 {" "}
                                 <BriefcaseBusiness className="h-14 w-14 text-white bg-orange-500 border rounded-full p-3" />{" "}
                                 <div className="text-orange-500 font-medium my-2 mr-auto">
@@ -104,7 +104,7 @@ export default function Dashboard() {
                                     7
                                 </div>{" "}
                             </div>{" "}
-                            <div className="flex flex-col p-4 rounded-lg bg-gray-100 shadow-md">
+                            <div className="flex flex-col p-4 rounded-lg bg-gray-100 shadow-md mx-4 md:mx-0">
                                 {" "}
                                 <Clock4 className="h-14 w-14 text-white bg-blue-500 border rounded-full p-3" />{" "}
                                 <div className="text-blue-500 font-medium my-2 mr-auto">
@@ -114,7 +114,7 @@ export default function Dashboard() {
                                     2
                                 </div>{" "}
                             </div>{" "}
-                            <Button className="w-full border rounded-xl py-5 bg-black">
+                            <Button className="w-30 md:w-full border rounded-xl py-5 bg-black">
                                 <Plus className="mr-2 h-4 w-4" /> Add Task{" "}
                             </Button>
                         </div>
