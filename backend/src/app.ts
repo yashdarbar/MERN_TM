@@ -1,7 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
+import corsOptions from "./config/cors";
 import { connectDB } from "./config/db.config";
 import authRoutes from "./routes/auth";
+import taskRoutes from "./routes/task";
+
 
 // Load environment variables
 dotenv.config();
@@ -11,6 +15,8 @@ const PORT = process.env.PORT || 3000;
 
 // Connect to database
 connectDB();
+
+app.use(cors(corsOptions));
 
 // Middleware
 app.use(express.json());
@@ -22,6 +28,25 @@ app.get("/", (_req, res) => {
 
 // Auth routes
 app.use("/api/auth", authRoutes);
+
+// Task routes
+app.use("/api/tasks", taskRoutes);
+//app.use("/api/tasks/:taskId", taskRoutes);
+
+app.use(
+    (
+        err: any,
+        req: express.Request,
+        res: express.Response,
+        next: express.NextFunction
+    ) => {
+        console.error("Global error handler:", err);
+        res.status(500).json({
+            message: "Internal server error",
+            success: false,
+        });
+    }
+);
 
 // Start server
 app.listen(PORT, () => {
