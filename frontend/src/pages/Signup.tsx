@@ -4,17 +4,16 @@ import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+//import { Label } from "@/components/ui/label";
 import {
     Card,
     CardContent,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
+//import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import axios from "axios";
+//import axios from "axios";
 import api from "@/config/axios";
 
 export default function Signup() {
