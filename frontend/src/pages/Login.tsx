@@ -15,17 +15,16 @@ const Login = () => {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false);
-    const { login } = useAuth();
+    const { login, isAuthenticated } = useAuth();
 
+    // Debug: Log authentication state changes
     useEffect(() => {
-        // Check for registration success message
-        const successMessage = sessionStorage.getItem("registrationSuccess");
-        if (successMessage) {
-            setSuccess(successMessage);
-            // Remove the message from storage
-            sessionStorage.removeItem("registrationSuccess");
-        }
-    }, []);
+        console.log("Auth state changed:", { isAuthenticated });
+
+        // Debug: Check stored token
+        const token = localStorage.getItem("token");
+        console.log("Stored token exists:", !!token);
+    }, [isAuthenticated]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -34,18 +33,53 @@ const Login = () => {
         setLoading(true);
 
         try {
+            console.log("Attempting login for email:", email);
+
             const { data } = await api.post("/api/auth/login", {
                 email,
                 password,
             });
 
+            console.log("Login response received:", {
+                hasToken: !!data.token,
+                tokenPreview: data.token
+                    ? `${data.token.slice(0, 20)}...`
+                    : null,
+            });
+
             if (data.token) {
                 login(data.token);
-                navigate("/dashboard"); // or wherever you want to redirect after login
+
+                // Debug: Verify token is stored
+                const storedToken = localStorage.getItem("token");
+                console.log("Token stored successfully:", !!storedToken);
+
+                // Debug: Make a test request
+                try {
+                    const testResponse = await api.get("/api/tasks");
+                    console.log("Test request successful:", {
+                        status: testResponse.status,
+                        headers: testResponse.config?.headers,
+                    });
+                } catch (testError: any) {
+                    console.error("Test request failed:", {
+                        status: testError.response?.status,
+                        message: testError.response?.data?.message,
+                        headers: testError.config?.headers,
+                    });
+                }
+
+                navigate("/dashboard");
             }
         } catch (error: any) {
-            setError(error.response?.data?.message || "Login failed");
-            console.error("Login failed:", error);
+            const errorMessage =
+                error.response?.data?.message || "Login failed";
+            console.error("Login error:", {
+                status: error.response?.status,
+                message: errorMessage,
+                details: error.response?.data,
+            });
+            setError(errorMessage);
         } finally {
             setLoading(false);
         }

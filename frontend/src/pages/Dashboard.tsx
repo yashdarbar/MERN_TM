@@ -1,3 +1,5 @@
+import AddTaskComponent from "@/components/AddTask";
+import TaskSection from "@/components/TaskSection";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -16,13 +18,16 @@ import {
     Plus,
     TimerOff,
 } from "lucide-react";
+import { useState } from "react";
 
 export default function Dashboard() {
     const { user, logout } = useAuth();
+    
+
     return (
         <div>
-            <h1>Dashboard</h1>
-            <nav className="bg-white shadow-lg">
+            {/* <h1>Dashboard</h1> */}
+            {/* <nav className="bg-white shadow-lg">
                 <div className="max-w-6xl mx-auto px-4">
                     <div className="flex justify-between items-center h-16">
                         <div className="flex items-center">
@@ -46,18 +51,16 @@ export default function Dashboard() {
                         )}
                     </div>
                 </div>
-            </nav>{" "}
+            </nav> */}
             <div className="flex-1">
-                Search Bar
                 <div className="flex gap-4 mb-8 bg-gray-100 p-5 border rounded-2xl justify-between shadow-md">
                     {/* Search Bar */}
                     <div className="relative w-3/12 flex">
-                        {" "}
                         <Input
                             type="search"
                             placeholder="Search Project"
                             className="pl-8 bg-white border rounded-2xl shadow-md"
-                        />{" "}
+                        />
                         <svg
                             className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500"
                             fill="none"
@@ -71,12 +74,22 @@ export default function Dashboard() {
                         >
                             <circle cx="11" cy="11" r="8" />
                             <path d="m21 21-4.3-4.3" />{" "}
-                        </svg>{" "}
-                    </div>{" "}
-                    <Button variant="outline" className="bg-white">
-                        <Filter className="mr-2 h-4 w-4" />
-                        Filter
-                    </Button>
+                        </svg>
+                    </div>
+                    <div>
+                        {user && (
+                            <button
+                                onClick={logout}
+                                className="bg-red-600 hover:bg-red-700 text-white font-medium py-1 px-4 rounded transition-colors mr-2"
+                            >
+                                Logout
+                            </button>
+                        )}
+                        <Button variant="outline" className="bg-white">
+                            <Filter className="mr-2 h-4 w-4" />
+                            Filter
+                        </Button>
+                    </div>
                 </div>
                 {/* Kanban Board */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-4 lg:grid-cols-4 lg:gap-6">
@@ -114,9 +127,11 @@ export default function Dashboard() {
                                     2
                                 </div>{" "}
                             </div>{" "}
-                            <Button className="w-30 md:w-full border rounded-xl py-5 bg-black">
+                            {/* <Button className="w-30 md:w-full border rounded-xl py-5 bg-black">
                                 <Plus className="mr-2 h-4 w-4" /> Add Task{" "}
-                            </Button>
+
+                            </Button> */}
+                            <TaskSection />
                         </div>
                     </div>
                     <div className="flex flex-col bg-gray-100 p-5 border rounded-2xl">
