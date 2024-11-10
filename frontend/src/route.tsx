@@ -1,39 +1,25 @@
-// import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// import Login from "./pages/auth/Login";
-// import Signup from "./pages/auth/SignUp";
-// // import MainLayout from "./components/layout/MainLayout";
-// // import Login from "./pages/auth/Login";
-// // import Signup from "./pages/auth/Signup";
-// // import Dashboard from "./pages/dashboard/Dashboard";
-// // import TaskBoard from "./pages/tasks/TaskBoard";
-// // import TaskDetails from "./pages/tasks/TaskDetails";
-// // import { ProtectedRoute } from "./components/auth/ProtectedRoute";
+import { Routes as RouterRoutes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Signup from "./pages/Signup";
 
-// const router = createBrowserRouter([
-//     {
-//         path: "/",
-//         //element: <Login />,
-//         children: [
-//             {
-//                 path: "/auth",
-//                 children: [
-//                     { path: "login", element: <Login /> },
-//                     { path: "signup", element: <Signup /> },
-//                 ],
-//             }],
-//         //     // {
-//         //     //     path: "/",
-//         //     //     element: <ProtectedRoute />,
-//         //     //     children: [
-//         //     //         { path: "/", element: <Dashboard /> },
-//         //     //         { path: "/tasks", element: <TaskBoard /> },
-//         //     //         { path: "/tasks/:id", element: <TaskDetails /> },
-//         //     //     ],
-//         //     // },
-//         // ],
-//     },
-// ]);
+const Routes = () => {
+    return (
+        <RouterRoutes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route
+                path="/dashboard"
+                element={
+                    <ProtectedRoute>
+                        <Dashboard />
+                    </ProtectedRoute>
+                }
+            />
+            {/* Add other routes as needed */}
+        </RouterRoutes>
+    );
+};
 
-// export default function Routes() {
-//     return <RouterProvider router={router} />;
-// }
+export default Routes;

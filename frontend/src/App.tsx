@@ -4,13 +4,17 @@
 
 import {
     BrowserRouter as Router,
-    Routes,
     Route,
     Navigate,
+    BrowserRouter,
 } from "react-router-dom";
 import "./App.css";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Dashboard from "./pages/Dashboard";
+import { AuthProvider } from "./context/AuthContext";
+import Routes from "./route";
+
 
 //import Routes from "./routes";
 
@@ -312,23 +316,11 @@ function App() {
         <>
             <div className="">
                 {/* Main Content */}
-                <Router>
-                    <Routes>
-                        {/* Auth Routes */}
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/signup" element={<Signup />} />
-
-                        {/* Protected Main Task Page */}
-                        {/* <Route
-                            path="/"
-                            element={
-                                <PrivateRoute>
-                                    <TaskPage />
-                                </PrivateRoute>
-                            }
-                        /> */}
-                    </Routes>
-                </Router>
+                <BrowserRouter>
+                    <AuthProvider>
+                        <Routes />
+                    </AuthProvider>
+                </BrowserRouter>
             </div>
         </>
     );

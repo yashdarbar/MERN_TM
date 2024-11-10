@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,13 +18,16 @@ import axios from "axios";
 import api from "@/config/axios";
 
 export default function Signup() {
+
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: "",
         email: "",
         password: "",
     });
     const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
+    //const [success, setSuccess] = useState("");
+    const [loading, setLoading] = useState(false);
     //const [showPassword, setShowPassword] = useState(false);
     //const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -42,31 +45,43 @@ export default function Signup() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
-        setSuccess("");
+        setLoading(true);
 
         if (!formData.username || !formData.email || !formData.password) {
             setError("All fields are required");
+            setLoading(false);
             return;
         }
 
         if (formData.password.length < 8) {
             setError("Password must be at least 8 characters long");
+            setLoading(false);
             return;
         }
 
         try {
             const { data } = await api.post("/api/auth/register", formData);
 
-            if (data.token) {
-                setSuccess("Account created successfully!");
-                //login(data.token);
-            }
+            // Show success message
+            const successMessage =
+                "Account created successfully! Redirecting to login...";
+
+            // Optional: Store the success message in sessionStorage to show it on the login page
+            sessionStorage.setItem("registrationSuccess", successMessage);
+
+            // Add a small delay for better UX
+            setTimeout(() => {
+                // Navigate to login page
+                navigate("/login");
+            }, 1500);
         } catch (error: any) {
             setError(
                 error.response?.data?.message ||
                     "An error occurred during signup"
             );
             console.error("Signup failed:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -193,11 +208,11 @@ export default function Signup() {
                             </Alert>
                         )}
 
-                        {success && (
+                        {/* {success && (
                             <Alert className="bg-green-50 text-green-700 border-green-200">
                                 <AlertDescription>{success}</AlertDescription>
                             </Alert>
-                        )}
+                        )} */}
 
                         <div className="space-y-2">
                             <Input
@@ -235,6 +250,16 @@ export default function Signup() {
                         <Button type="submit" className="w-full">
                             Sign Up
                         </Button>
+                        <div className="text-center text-sm text-gray-500">
+                            Have an account?{" "}
+                            <button
+                                type="button"
+                                onClick={() => navigate("/login")}
+                                className="text-blue-500 hover:text-blue-600"
+                            >
+                                Login up here
+                            </button>
+                        </div>
                     </form>
                 </CardContent>
             </Card>
